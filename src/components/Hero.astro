@@ -1,0 +1,59 @@
+---
+interface Props {
+  t: Record<string, any>;
+}
+
+const { t } = Astro.props;
+---
+
+<section id="hero" class="relative min-h-screen flex items-center justify-center text-white overflow-hidden">
+  <video autoplay muted loop class="absolute top-1/2 left-1/2 w-full h-full object-cover -translate-x-1/2 -translate-y-1/2 -z-10">
+    <source src="/vidbg.mp4" type="video/mp4" />
+  </video>
+  <div class="absolute inset-0 bg-dark/50 -z-5"></div>
+  
+  <div class="container mx-auto px-4 text-center relative z-10">
+    <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-4">{t.hero.name}</h1>
+    <p class="text-xl md:text-2xl mb-8 text-gray-200">{t.hero.title}</p>
+    
+    <div class="flex justify-center gap-6 mb-8">
+      <a href="https://x.com/cargabsj175" target="_blank" rel="noopener noreferrer" class="text-3xl hover:text-accent transition-colors" title="Twitter">
+        <i class="fab fa-x-twitter"></i>
+      </a>
+      <a href="https://www.linkedin.com/in/carlos-gabriel-s%C3%A1nchez-jim%C3%A9nez-51135298/" target="_blank" rel="noopener noreferrer" class="text-3xl hover:text-accent transition-colors" title="LinkedIn">
+        <i class="fab fa-linkedin-in"></i>
+      </a>
+      <a href="https://github.com/cargabsj175" target="_blank" rel="noopener noreferrer" class="text-3xl hover:text-accent transition-colors" title="GitHub">
+        <i class="fab fa-github"></i>
+      </a>
+    </div>
+    
+    <div class="testimonial-container max-w-2xl mx-auto mb-8 min-h-[80px]">
+      {t.hero.testimonials.map((testimonial: { text: string; author: string }, i: number) => (
+        <div class={`testimonial ${i === 0 ? 'active' : ''}`} data-index={i}>
+          <p class="text-lg italic mb-2">{testimonial.text}</p>
+          <cite class="text-gray-300">- {testimonial.author}</cite>
+        </div>
+      ))}
+    </div>
+    
+    <a href="#projects" class="inline-block bg-secondary hover:bg-secondary-dark text-white px-6 py-3 rounded-lg text-lg font-medium transition-colors">
+      {t.hero.cta}
+    </a>
+  </div>
+</section>
+
+<script>
+  const testimonials = document.querySelectorAll('.testimonial');
+  let currentIndex = 0;
+
+  function showTestimonial(index: number) {
+    testimonials.forEach(t => t.classList.remove('active'));
+    testimonials[index]?.classList.add('active');
+  }
+
+  setInterval(() => {
+    currentIndex = (currentIndex + 1) % testimonials.length;
+    showTestimonial(currentIndex);
+  }, 6000);
+</script>

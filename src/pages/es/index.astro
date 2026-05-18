@@ -1,0 +1,31 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Hero from '../../components/Hero.astro';
+import About from '../../components/About.astro';
+import Experience from '../../components/Experience.astro';
+import Education from '../../components/Education.astro';
+import Skills from '../../components/Skills.astro';
+import Services from '../../components/Services.astro';
+import Projects from '../../components/Projects.astro';
+import Contact from '../../components/Contact.astro';
+import Footer from '../../components/Footer.astro';
+import { es } from '../../data/translations';
+
+const t = es;
+---
+
+<BaseLayout title="Carlos Sánchez | Desarrollador Web" lang="es">
+  <Header t={t} currentLang="es" />
+  <main>
+    <Hero t={t} />
+    <About t={t} currentLang="es" />
+    <Experience t={t} />
+    <Education t={t} />
+    <Skills t={t} />
+    <Services t={t} />
+    <Projects t={t} />
+    <Contact t={t} />
+  </main>
+  <Footer t={t} />
+</BaseLayout>

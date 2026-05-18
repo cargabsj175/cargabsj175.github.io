@@ -1,0 +1,100 @@
+---
+interface Props {
+  t: Record<string, any>;
+  currentLang: string;
+}
+
+const { t, currentLang } = Astro.props;
+
+const languages = [
+  { code: 'en', label: 'EN', name: 'English' },
+  { code: 'es', label: 'ES', name: 'Español' },
+  { code: 'pt', label: 'PT', name: 'Português' },
+];
+---
+
+<header id="header" class="fixed w-full top-0 left-0 z-50 transition-all duration-300 bg-transparent text-white">
+  <nav class="container mx-auto px-4 py-4 flex justify-between items-center">
+    <a href="#hero" class="text-xl font-bold">Carlos Sánchez</a>
+    
+    <div class="hidden md:flex items-center gap-6">
+      <a href="#about" class="hover:text-secondary transition-colors">{t.nav.about}</a>
+      <a href="#experience" class="hover:text-secondary transition-colors">{t.nav.experience}</a>
+      <a href="#skills" class="hover:text-secondary transition-colors">{t.nav.skills}</a>
+      <a href="#services" class="hover:text-secondary transition-colors">{t.nav.services}</a>
+      <a href="#projects" class="hover:text-secondary transition-colors">{t.nav.projects}</a>
+      <a href="#contact" class="hover:text-secondary transition-colors">{t.nav.contact}</a>
+      
+      <div class="flex gap-2 ml-4 border-l border-white/30 pl-4">
+        {languages.map((lang) => (
+          <a
+            href={`/${lang.code === 'en' ? '' : lang.code}`}
+            class={`px-2 py-1 rounded text-sm font-medium transition-colors ${
+              lang.code === currentLang
+                ? 'bg-secondary text-white'
+                : 'hover:bg-white/20'
+            }`}
+            title={lang.name}
+          >
+            {lang.label}
+          </a>
+        ))}
+      </div>
+    </div>
+    
+    <button id="menu-toggle" class="md:hidden text-2xl">
+      <i class="fas fa-bars"></i>
+    </button>
+  </nav>
+  
+  <div id="mobile-menu" class="hidden md:hidden bg-dark/95 backdrop-blur-sm">
+    <ul class="flex flex-col items-center py-4 gap-4">
+      <li><a href="#about" class="hover:text-secondary transition-colors">{t.nav.about}</a></li>
+      <li><a href="#experience" class="hover:text-secondary transition-colors">{t.nav.experience}</a></li>
+      <li><a href="#skills" class="hover:text-secondary transition-colors">{t.nav.skills}</a></li>
+      <li><a href="#services" class="hover:text-secondary transition-colors">{t.nav.services}</a></li>
+      <li><a href="#projects" class="hover:text-secondary transition-colors">{t.nav.projects}</a></li>
+      <li><a href="#contact" class="hover:text-secondary transition-colors">{t.nav.contact}</a></li>
+      <li class="flex gap-2 pt-2 border-t border-white/30">
+        {languages.map((lang) => (
+          <a
+            href={`/${lang.code === 'en' ? '' : lang.code}`}
+            class={`px-3 py-1 rounded text-sm font-medium transition-colors ${
+              lang.code === currentLang
+                ? 'bg-secondary text-white'
+                : 'hover:bg-white/20'
+            }`}
+          >
+            {lang.label}
+          </a>
+        ))}
+      </li>
+    </ul>
+  </div>
+</header>
+
+<script>
+  const header = document.getElementById('header');
+  const menuToggle = document.getElementById('menu-toggle');
+  const mobileMenu = document.getElementById('mobile-menu');
+
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 50) {
+      header.classList.add('bg-white', 'text-dark', 'shadow-md');
+      header.classList.remove('bg-transparent', 'text-white');
+    } else {
+      header.classList.remove('bg-white', 'text-dark', 'shadow-md');
+      header.classList.add('bg-transparent', 'text-white');
+    }
+  });
+
+  menuToggle?.addEventListener('click', () => {
+    mobileMenu?.classList.toggle('hidden');
+  });
+
+  document.querySelectorAll('#mobile-menu a').forEach(link => {
+    link.addEventListener('click', () => {
+      mobileMenu?.classList.add('hidden');
+    });
+  });
+</script>

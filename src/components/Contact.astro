@@ -1,0 +1,56 @@
+---
+interface Props {
+  t: Record<string, any>;
+}
+
+const { t } = Astro.props;
+---
+
+<section id="contact" class="py-16 bg-cover bg-center bg-no-repeat relative" style="background-image: url('/bg_003.jpg');">
+  <div class="absolute inset-0 bg-dark/40"></div>
+  <div class="container mx-auto px-4 relative z-10">
+    <form action="https://formspree.io/f/xrgjrppr" method="POST" class="max-w-2xl mx-auto bg-white rounded-lg shadow-xl p-8">
+      <h2 class="text-2xl md:text-3xl font-bold mb-6 text-center text-dark">{t.contact.title}</h2>
+      
+      <div class="mb-4">
+        <input
+          type="text"
+          id="name"
+          name="sender-name"
+          placeholder={t.contact.namePlaceholder}
+          class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-primary focus:ring-2 focus:ring-primary/25 outline-none transition-all"
+          required
+        />
+      </div>
+      
+      <div class="mb-4">
+        <input
+          type="email"
+          id="email"
+          name="sender-email"
+          placeholder={t.contact.emailPlaceholder}
+          class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-primary focus:ring-2 focus:ring-primary/25 outline-none transition-all"
+          required
+        />
+      </div>
+      
+      <div class="mb-6">
+        <textarea
+          id="message"
+          name="message"
+          placeholder={t.contact.messagePlaceholder}
+          rows="6"
+          class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-primary focus:ring-2 focus:ring-primary/25 outline-none transition-all resize-vertical"
+          required
+        ></textarea>
+      </div>
+      
+      <button
+        type="submit"
+        class="w-full bg-primary hover:bg-primary-dark text-white py-3 rounded-lg font-medium transition-colors hover:scale-105 transform"
+      >
+        {t.contact.submit}
+      </button>
+    </form>
+  </div>
+</section>

@@ -1,0 +1,89 @@
+---
+interface Props {
+  t: Record<string, any>;
+}
+
+const { t } = Astro.props;
+
+const projectsJson = JSON.stringify(t.projects.list.map((p: { thumb: string; full: string; name: string; type: string; description: string; link: string }) => ({
+  thumb: `/${p.thumb}`,
+  full: `/${p.full}`,
+  name: p.name,
+  type: p.type,
+  description: p.description,
+  link: p.link,
+})));
+---
+
+<section id="projects" class="py-16 bg-primary">
+  <div class="container mx-auto px-4">
+    <h2 class="text-3xl md:text-4xl font-bold mb-12 text-center text-white">{t.projects.title}</h2>
+    
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 max-w-7xl mx-auto">
+      {t.projects.list.map((project: { name: string; type: string; description: string; thumb: string; full: string; link: string }, i: number) => (
+        <div
+          class="project-card relative rounded-lg overflow-hidden cursor-pointer group"
+          data-index={i}
+        >
+          <img src={project.thumb} alt={project.name} class="w-full h-48 object-cover transition-opacity group-hover:opacity-30" />
+          <div class="absolute inset-0 bg-dark/60 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center text-white">
+            <h3 class="text-lg font-semibold mb-2">{project.name}</h3>
+            <p class="text-sm">{t.projects.checkItOut}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<div id="project-popup" class="fixed inset-0 bg-dark/70 z-50 hidden items-center justify-center p-4">
+  <div class="bg-white rounded-lg max-w-3xl w-full max-h-[90vh] overflow-y-auto relative p-6">
+    <button id="close-popup" class="absolute top-4 right-4 text-3xl text-gray-500 hover:text-primary">&times;</button>
+    <img id="popup-image" src="" alt="" class="w-full rounded-lg mb-4" />
+    <h3 id="popup-name" class="text-2xl font-bold text-dark mb-2"></h3>
+    <p id="popup-type" class="text-primary font-medium mb-2"></p>
+    <p id="popup-description" class="text-gray-600 mb-4"></p>
+    <div class="flex gap-4">
+      <a id="popup-screenshot" href="#" target="_blank" rel="noopener noreferrer" class="bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded font-medium transition-colors">
+        {t.projects.screenshot}
+      </a>
+      <a id="popup-link" href="#" target="_blank" rel="noopener noreferrer" class="bg-secondary hover:bg-secondary-dark text-white px-4 py-2 rounded font-medium transition-colors">
+        {t.projects.viewProject}
+      </a>
+    </div>
+  </div>
+</div>
+
+<script is:inline set:html={`
+  (function() {
+    var projectsData = ${projectsJson};
+    document.querySelectorAll('.project-card').forEach(function(card) {
+      var index = parseInt(card.getAttribute('data-index') || '0');
+      card.addEventListener('click', function() {
+        var project = projectsData[index];
+        if (!project) return;
+        document.getElementById('popup-image').setAttribute('src', project.full);
+        document.getElementById('popup-image').setAttribute('alt', project.name);
+        document.getElementById('popup-name').textContent = project.name;
+        document.getElementById('popup-type').textContent = project.type;
+        document.getElementById('popup-description').textContent = project.description;
+        document.getElementById('popup-screenshot').setAttribute('href', project.full);
+        document.getElementById('popup-link').setAttribute('href', project.link);
+        var popup = document.getElementById('project-popup');
+        popup.classList.remove('hidden');
+        popup.classList.add('flex');
+      });
+    });
+    document.getElementById('close-popup').addEventListener('click', function() {
+      var popup = document.getElementById('project-popup');
+      popup.classList.add('hidden');
+      popup.classList.remove('flex');
+    });
+    document.getElementById('project-popup').addEventListener('click', function(e) {
+      if (e.target === e.currentTarget) {
+        e.currentTarget.classList.add('hidden');
+        e.currentTarget.classList.remove('flex');
+      }
+    });
+  })();
+`}></script>

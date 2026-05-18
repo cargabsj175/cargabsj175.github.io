@@ -1,0 +1,120 @@
+---
+interface Props {
+  t: Record<string, any>;
+}
+
+const { t } = Astro.props;
+
+const iconMap: Record<string, string> = {
+  HTML5: 'fab fa-html5',
+  CSS3: 'fab fa-css3-alt',
+  JavaScript: 'fab fa-js',
+  WordPress: 'fab fa-wordpress',
+  Elementor: 'fab fa-elementor',
+  Bootstrap: 'fab fa-bootstrap',
+  cPanel: 'fab fa-cpanel',
+  GitHub: 'fab fa-github',
+  Trello: 'fab fa-trello',
+  Jira: 'fab fa-jira',
+  Hubspot: 'fab fa-hubspot',
+  Windows: 'fab fa-windows',
+  Linux: 'fab fa-linux',
+  macOS: 'fab fa-apple',
+  Photoshop: 'fas fa-image',
+  Illustrator: 'fas fa-pen-nib',
+  GIMP: 'fas fa-paint-brush',
+  Inkscape: 'fas fa-vector-square',
+  Canva: 'fas fa-palette',
+  Figma: 'fab fa-figma',
+  WHM: 'fas fa-server',
+  WHMCS: 'fas fa-cogs',
+  Bash: 'fas fa-terminal',
+  Networking: 'fas fa-network-wired',
+  Redes: 'fas fa-network-wired',
+  'System Administration': 'fas fa-server',
+  'Administración de Sistemas': 'fas fa-server',
+  'Administração de Sistemas': 'fas fa-server',
+};
+---
+
+<section id="skills" class="py-16 bg-gray-50">
+  <div class="container mx-auto px-4">
+    <h2 class="text-3xl md:text-4xl font-bold mb-12 text-center text-dark">{t.skills.title}</h2>
+    
+    <div class="max-w-4xl mx-auto">
+      <div id="skills-tabs" class="flex flex-wrap justify-center gap-2 mb-8">
+        {t.skills.categories.map((category: { name: string; items: string[] }, i: number) => (
+          <button
+            class={`skill-tab px-5 py-2.5 rounded-lg font-medium text-sm transition-all ${
+              i === 0
+                ? 'bg-primary text-white shadow-md'
+                : 'bg-white text-gray-600 hover:bg-gray-100'
+            }`}
+            data-tab={i}
+          >
+            {category.name}
+          </button>
+        ))}
+      </div>
+      
+      <div id="skills-panels">
+        {t.skills.categories.map((category: { name: string; items: string[] }, i: number) => (
+          <div
+            class={`skill-panel ${i === 0 ? 'block' : 'hidden'}`}
+            data-panel={i}
+          >
+            <div class="bg-white p-8 rounded-xl shadow-md">
+              <div class="flex flex-wrap justify-center gap-8">
+                {category.items.map((skill: string) => (
+                  <div class="flex flex-col items-center gap-3 w-20">
+                    <div class="w-16 h-16 bg-primary text-white rounded-xl flex items-center justify-center hover:bg-secondary transition-colors cursor-pointer hover:scale-110 transform">
+                      <i class={`${iconMap[skill] || 'fas fa-code'} text-2xl`}></i>
+                    </div>
+                    <span class="text-xs font-medium text-gray-700 text-center leading-tight">{skill}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+    
+    <div class="mt-16 max-w-3xl mx-auto">
+      <h3 class="text-2xl font-bold mb-6 text-center text-dark">{t.languages.title}</h3>
+      <div class="grid md:grid-cols-3 gap-6">
+        {t.languages.items.map((lang: { name: string; level: string }) => (
+          <div class="bg-white p-4 rounded-lg shadow-md text-center">
+            <h4 class="font-semibold text-dark mb-1">{lang.name}</h4>
+            <p class="text-primary text-sm">{lang.level}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const tabs = document.querySelectorAll('.skill-tab');
+  const panels = document.querySelectorAll('.skill-panel');
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      const index = tab.getAttribute('data-tab');
+      
+      tabs.forEach(t => {
+        t.classList.remove('bg-primary', 'text-white', 'shadow-md');
+        t.classList.add('bg-white', 'text-gray-600');
+      });
+      tab.classList.add('bg-primary', 'text-white', 'shadow-md');
+      tab.classList.remove('bg-white', 'text-gray-600');
+      
+      panels.forEach(p => p.classList.add('hidden'));
+      panels.forEach(p => p.classList.remove('block'));
+      
+      const target = document.querySelector(`.skill-panel[data-panel="${index}"]`);
+      target?.classList.remove('hidden');
+      target?.classList.add('block');
+    });
+  });
+</script>

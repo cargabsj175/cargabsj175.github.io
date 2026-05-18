@@ -1,0 +1,28 @@
+---
+interface Props {
+  t: Record<string, any>;
+}
+
+const { t } = Astro.props;
+---
+
+<section id="experience" class="py-16 bg-gray-50">
+  <div class="container mx-auto px-4">
+    <h2 class="text-3xl md:text-4xl font-bold mb-12 text-center text-dark">{t.experience.title}</h2>
+    
+    <div class="max-w-4xl mx-auto space-y-8">
+      {t.experience.jobs.map((job: { company: string; period: string; role: string; description: string }) => (
+        <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow border-l-4 border-primary">
+          <div class="flex flex-col md:flex-row md:justify-between md:items-start mb-4">
+            <div>
+              <h3 class="text-xl font-semibold text-dark">{job.company}</h3>
+              <p class="text-primary font-medium">{job.role}</p>
+            </div>
+            <span class="text-gray-500 text-sm mt-2 md:mt-0 bg-gray-100 px-3 py-1 rounded-full">{job.period}</span>
+          </div>
+          <p class="text-gray-600">{job.description}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

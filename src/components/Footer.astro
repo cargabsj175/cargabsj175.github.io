@@ -1,0 +1,28 @@
+---
+interface Props {
+  t: Record<string, any>;
+}
+
+const { t } = Astro.props;
+---
+
+<footer class="bg-dark text-white py-8">
+  <div class="container mx-auto px-4 text-center">
+    <div class="flex justify-center gap-6 mb-4">
+      <a href="https://x.com/cargabsj175" target="_blank" rel="noopener noreferrer" class="text-2xl hover:text-secondary transition-colors" title="Twitter">
+        <i class="fab fa-x-twitter"></i>
+      </a>
+      <a href="https://www.linkedin.com/in/carlos-gabriel-s%C3%A1nchez-jim%C3%A9nez-51135298/" target="_blank" rel="noopener noreferrer" class="text-2xl hover:text-secondary transition-colors" title="LinkedIn">
+        <i class="fab fa-linkedin-in"></i>
+      </a>
+      <a href="https://github.com/cargabsj175" target="_blank" rel="noopener noreferrer" class="text-2xl hover:text-secondary transition-colors" title="GitHub">
+        <i class="fab fa-github"></i>
+      </a>
+    </div>
+    <p class="text-gray-400">&copy; <span id="current-year"></span> Carlos Gabriel Sánchez Jiménez.</p>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('current-year')!.textContent = new Date().getFullYear().toString();
+</script>
