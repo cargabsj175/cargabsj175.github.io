@@ -1,0 +1,44 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Header from '../../../components/Header.astro';
+import Footer from '../../../components/Footer.astro';
+import BlogIndex from '../../../components/BlogIndex.astro';
+import { es } from '../../../data/translations';
+import {
+  getAllPosts,
+  getBlogPath,
+  getLocaleFromId,
+  getRssPath,
+  type Locale,
+} from '../../../utils/blog';
+
+const t = es;
+const lang: Locale = 'es';
+const allPosts = await getAllPosts();
+const posts = allPosts.filter((post) => getLocaleFromId(post.id) === lang);
+
+const langLinks = {
+  en: getBlogPath('en'),
+  es: getBlogPath('es'),
+  pt: getBlogPath('pt'),
+};
+const alternates = [
+  { hreflang: 'en', href: getBlogPath('en') },
+  { hreflang: 'es', href: getBlogPath('es') },
+  { hreflang: 'pt', href: getBlogPath('pt') },
+];
+---
+
+<BaseLayout
+  title="Blog | Carlos Sánchez"
+  description={t.blog.description}
+  lang={lang}
+  rssUrl={getRssPath(lang)}
+  alternates={alternates}
+>
+  <Header t={t} currentLang={lang} variant="solid" langLinks={langLinks} />
+  <main>
+    <BlogIndex lang={lang} t={t} posts={posts} allPosts={allPosts} />
+  </main>
+  <Footer t={t} />
+</BaseLayout>

@@ -1,5 +1,6 @@
 @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css');
 @import 'tailwindcss';
+@plugin "@tailwindcss/typography";
 
 @theme {
   --color-primary: #2563eb;
@@ -17,6 +18,47 @@ html {
 
 body {
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+/* Blog prose: match the portfolio palette. */
+.prose {
+  --tw-prose-body: #334155;
+  --tw-prose-headings: #0f172a;
+  --tw-prose-lead: #475569;
+  --tw-prose-links: #2563eb;
+  --tw-prose-bold: #0f172a;
+  --tw-prose-counters: #64748b;
+  --tw-prose-bullets: #10b981;
+  --tw-prose-hr: #e2e8f0;
+  --tw-prose-quotes: #0f172a;
+  --tw-prose-quote-borders: #10b981;
+  --tw-prose-captions: #64748b;
+  --tw-prose-code: #0f172a;
+  --tw-prose-pre-code: #e2e8f0;
+  --tw-prose-pre-bg: #0f172a;
+  --tw-prose-th-borders: #cbd5e1;
+  --tw-prose-td-borders: #e2e8f0;
+}
+
+.prose :where(h2, h3) {
+  scroll-margin-top: 6rem;
+}
+
+.prose :where(pre) {
+  border-radius: 0.75rem;
+}
+
+.prose :where(img) {
+  border-radius: 0.75rem;
+}
+
+.prose :where(table) {
+  display: block;
+  overflow-x: auto;
+}
+
+.prose :where(iframe) {
+  max-width: 100%;
 }
 
 .testimonial {

@@ -1,13 +1,36 @@
 ---
 import '../styles/global.css';
 
+interface Alternate {
+  hreflang: string;
+  href: string;
+}
+
 interface Props {
   title: string;
   lang: string;
   description?: string;
+  type?: 'website' | 'article';
+  image?: string;
+  rssUrl?: string;
+  alternates?: Alternate[];
+  noindex?: boolean;
 }
 
-const { title, lang = 'en', description = 'Carlos Gabriel Sánchez Jiménez - Web Developer Portfolio' } = Astro.props;
+const {
+  title,
+  lang = 'en',
+  description = 'Carlos Gabriel Sánchez Jiménez - Web Developer Portfolio',
+  type = 'website',
+  image = '/og-image.png',
+  rssUrl,
+  alternates = [],
+  noindex = false,
+} = Astro.props;
+
+const site = Astro.site ?? new URL('https://cargabsj175.github.io');
+const canonical = new URL(Astro.url.pathname, site);
+const imageUrl = new URL(image, site);
 ---
 
 <!doctype html>
@@ -18,10 +41,37 @@ const { title, lang = 'en', description = 'Carlos Gabriel Sánchez Jiménez - We
     <meta name="description" content={description} />
     <meta name="google-site-verification" content="IonC47EpZngqtfT4XAvDA7Gr_fkHJtW6ok0JHZJtlgw" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+
+    <meta property="og:site_name" content="Carlos Gabriel Sánchez Jiménez" />
+    <meta property="og:type" content={type} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={imageUrl} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={imageUrl} />
+
+    {alternates.map((alternate) => (
+      <link rel="alternate" hreflang={alternate.hreflang} href={new URL(alternate.href, site)} />
+    ))}
+    {rssUrl && (
+      <link
+        rel="alternate"
+        type="application/rss+xml"
+        title={`Blog RSS (${lang})`}
+        href={new URL(rssUrl, site)}
+      />
+    )}
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
     <title>{title}</title>
+    <slot name="head" />
   </head>
   <body class="bg-light text-dark overflow-x-hidden">
     <slot />

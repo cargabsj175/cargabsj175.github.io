@@ -1,0 +1,27 @@
+---
+import BlogLayout from '../../../layouts/BlogLayout.astro';
+import { pt } from '../../../data/translations';
+import {
+  getAllPosts,
+  getLocaleFromId,
+  getSlugFromId,
+  type Locale,
+} from '../../../utils/blog';
+
+const lang: Locale = 'pt';
+
+export async function getStaticPaths() {
+  const allPosts = await getAllPosts();
+  return allPosts
+    .filter((post) => getLocaleFromId(post.id) === 'pt')
+    .map((post) => ({
+      params: { slug: getSlugFromId(post.id) },
+      props: { post },
+    }));
+}
+
+const { post } = Astro.props;
+const allPosts = await getAllPosts();
+---
+
+<BlogLayout post={post} lang={lang} t={pt} allPosts={allPosts} />
